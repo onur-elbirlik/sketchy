@@ -28,6 +28,7 @@ public class ImageToLine extends AppCompatActivity {
             Log.i("opencv","init basarili");
         }
     }
+
     private int threshHold =300;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
