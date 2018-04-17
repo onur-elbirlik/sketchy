@@ -21,7 +21,6 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 public class ImageToLine extends AppCompatActivity {
-
     static{
         if(!OpenCVLoader.initDebug()){
             Log.i("opencv","init basarisiz");
