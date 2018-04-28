@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".HomeActivity" />
         <activity android:name=".ImageSelectScreen" />
+        <activity android:name=".DisplayActivity" />
         <activity android:name=".ImageToLine"></activity>
     </application>
 
