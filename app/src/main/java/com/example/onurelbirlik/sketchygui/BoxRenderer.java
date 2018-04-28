@@ -3,17 +3,18 @@ package com.example.onurelbirlik.sketchygui;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-import cn.easyar.Matrix44F;
 import cn.easyar.Vec2F;
+import cn.easyar.Matrix44F;
 
-public class BoxRenderer {
+public class BoxRenderer
+{
     public static float scaleFactor = 1.0f;
     public static float shiftX = -1.5f;
     public static float shiftY = -1.5f;
@@ -24,12 +25,10 @@ public class BoxRenderer {
 
     private int program_box;
     private int pos_coord_box;
-    private int pos_color_box;
     private int pos_trans_box;
     private int pos_tex_box;
     private int pos_proj_box;
     private int vbo_coord_box;
-    private int vbo_color_box_2;
     private int vbo_faces_box;
     private int vbo_tex_box;
 
@@ -40,14 +39,11 @@ public class BoxRenderer {
             + "attribute vec2 aTexCoordinate;\n"
             + "uniform mat4 proj;\n"
             + "attribute vec4 coord;\n"
-            + "attribute vec4 color;\n"
-            + "varying vec4 vcolor;\n"
             + "varying vec2 vTexCoordinate;\n"
             + "\n"
             + "void main(void)\n"
             + "{\n"
             + "    vTexCoordinate = aTexCoordinate;\n"
-            + "    vcolor = color;\n"
             + "    gl_Position = proj*trans*coord;\n"
             + "}\n"
             + "\n"
@@ -58,7 +54,6 @@ public class BoxRenderer {
             + "#endif\n"
             + "uniform sampler2D utexture;\n"
             + "varying vec2 vTexCoordinate;\n"
-            + "varying vec4 vcolor;\n"
             + "\n"
             + "void main(void)\n"
             + "{\n"
@@ -71,8 +66,37 @@ public class BoxRenderer {
         this.context = context;
     }
 
+    // Debug
+    /*
+    private static Bitmap getBitmapFromAsset(Context context, String filePath) {
+        AssetManager assetManager = context.getAssets();
+
+        InputStream istr;
+        Bitmap bitmap = null;
+        try {
+            istr = assetManager.open(filePath);
+            bitmap = BitmapFactory.decodeStream(istr);
+        } catch (IOException e) {
+            // handle exception
+        }
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        return bitmap;
+    }
+    */
+
     public static void setBitmap(Bitmap bitmap) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
         BoxRenderer.bitmap = bitmap;
+        bitmapLoaded = true;
     }
 
     private static int setTexture(Bitmap bitmap) {
@@ -84,14 +108,13 @@ public class BoxRenderer {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
 
             // Set filtering
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
             // Load the bitmap into the bound texture.
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
-            // Recycle the bitmap, since its data has been loaded into OpenGL.
-            bitmap.recycle();
         }
 
         if (textureHandle[0] == 0)
@@ -99,7 +122,6 @@ public class BoxRenderer {
             throw new RuntimeException("Error loading texture.");
         }
 
-        bitmapLoaded = true;
         return textureHandle[0];
     }
 
@@ -117,8 +139,10 @@ public class BoxRenderer {
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
 
             // Set filtering
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
             // Load the bitmap into the bound texture.
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
@@ -138,65 +162,28 @@ public class BoxRenderer {
     private float[] flatten(float[][] a)
     {
         int size = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            size += a[k].length;
+        for (float[] f : a) {
+            size += f.length;
         }
         float[] l = new float[size];
         int offset = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            System.arraycopy(a[k], 0, l, offset, a[k].length);
-            offset += a[k].length;
-        }
-        return l;
-    }
-    private int[] flatten(int[][] a)
-    {
-        int size = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            size += a[k].length;
-        }
-        int[] l = new int[size];
-        int offset = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            System.arraycopy(a[k], 0, l, offset, a[k].length);
-            offset += a[k].length;
+        for (float[] f : a) {
+            System.arraycopy(f, 0, l, offset, f.length);
+            offset += f.length;
         }
         return l;
     }
     private short[] flatten(short[][] a)
     {
         int size = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            size += a[k].length;
+        for (short[] b : a) {
+            size += b.length;
         }
         short[] l = new short[size];
         int offset = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            System.arraycopy(a[k], 0, l, offset, a[k].length);
-            offset += a[k].length;
-        }
-        return l;
-    }
-    private byte[] flatten(byte[][] a)
-    {
-        int size = 0;
-        for (int k = 0; k < a.length; k += 1) {
-            size += a[k].length;
-        }
-        byte[] l = new byte[size];
-        int offset = 0;
-
-        for (int k = 0; k < a.length; k += 1) {
-            System.arraycopy(a[k], 0, l, offset, a[k].length);
-            offset += a[k].length;
-        }
-        return l;
-    }
-    private byte[] byteArrayFromIntArray(int[] a)
-    {
-        byte[] l = new byte[a.length];
-        for (int k = 0; k < a.length; k += 1) {
-            l[k] = (byte)(a[k] & 0xFF);
+        for (short[] b : a) {
+            System.arraycopy(b, 0, l, offset, b.length);
+            offset += b.length;
         }
         return l;
     }
@@ -222,7 +209,6 @@ public class BoxRenderer {
         GLES20.glLinkProgram(program_box);
         GLES20.glUseProgram(program_box);
         pos_coord_box = GLES20.glGetAttribLocation(program_box, "coord");
-        pos_color_box = GLES20.glGetAttribLocation(program_box, "color");
         pos_trans_box = GLES20.glGetUniformLocation(program_box, "trans");
         pos_proj_box = GLES20.glGetUniformLocation(program_box, "proj");
         pos_tex_box = GLES20.glGetAttribLocation(program_box, "aTexCoordinate");
@@ -245,7 +231,7 @@ public class BoxRenderer {
                         0.0f, 1.0f,
                         1.0f, 1.0f,
                         1.0f, 0.0f,
-
+                        /*
                         // Right face
                         0.0f, 0.0f,
                         0.0f, 1.0f,
@@ -285,9 +271,10 @@ public class BoxRenderer {
                         0.0f, 1.0f,
                         1.0f, 1.0f,
                         1.0f, 0.0f
+                        */
                 };
         FloatBuffer cube_texture_buffer = FloatBuffer.wrap(cubeTextureCoordinateData);
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cube_texture_buffer.limit() * 4, cube_texture_buffer, GLES20.GL_STATIC_DRAW);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cube_texture_buffer.limit() * 4, cube_texture_buffer, GLES20.GL_DYNAMIC_DRAW);
 
         vbo_coord_box = generateOneBuffer();
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo_coord_box);
@@ -297,14 +284,6 @@ public class BoxRenderer {
         };
         FloatBuffer cube_vertices_buffer = FloatBuffer.wrap(flatten(cube_vertices));
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cube_vertices_buffer.limit() * 4, cube_vertices_buffer, GLES20.GL_DYNAMIC_DRAW);
-
-        vbo_color_box_2 = generateOneBuffer();
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo_color_box_2);
-        int cube_vertex_colors_2[][] = {
-                {128, 128, 128, 128}, {128, 128, 128, 128}, {128, 128, 128, 128}, {128, 128, 128, 128},
-                {128, 128, 128, 128}, {128, 128, 128, 128}, {128, 128, 128, 128}, {128, 128, 128, 128}};
-        ByteBuffer cube_vertex_colors_2_buffer = ByteBuffer.wrap(byteArrayFromIntArray(flatten(cube_vertex_colors_2)));
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cube_vertex_colors_2_buffer.limit(), cube_vertex_colors_2_buffer, GLES20.GL_STATIC_DRAW);
 
         vbo_faces_box = generateOneBuffer();
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, vbo_faces_box);
@@ -337,9 +316,6 @@ public class BoxRenderer {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo_coord_box);
         GLES20.glEnableVertexAttribArray(pos_coord_box);
         GLES20.glVertexAttribPointer(pos_coord_box, 3, GLES20.GL_FLOAT, false, 0, 0);
-        GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo_color_box_2);
-        GLES20.glEnableVertexAttribArray(pos_color_box);
-        GLES20.glVertexAttribPointer(pos_color_box, 4, GLES20.GL_UNSIGNED_BYTE, true, 0, 0);
         GLES20.glUniformMatrix4fv(pos_trans_box, 1, false, cameraview.data, 0);
         GLES20.glUniformMatrix4fv(pos_proj_box, 1, false, projectionMatrix.data, 0);
         GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, vbo_faces_box);
