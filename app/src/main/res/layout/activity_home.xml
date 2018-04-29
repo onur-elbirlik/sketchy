@@ -32,6 +32,7 @@
         android:id="@+id/optionsButton"
         android:layout_width="276dp"
         android:layout_height="46dp"
+        android:onClick="goToDisplayActivity"
         android:layout_centerInParent="true"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
