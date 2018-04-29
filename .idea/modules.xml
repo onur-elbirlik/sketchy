@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SketchyFinal.iml" filepath="$PROJECT_DIR$/.idea/SketchyFinal.iml" />
+      <module fileurl="file://C:\Users\ATA\Desktop\SketchyFinal\sketchy\.idea\SketchyFinal.iml" filepath="C:\Users\ATA\Desktop\SketchyFinal\sketchy\.idea\SketchyFinal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openCVLibrary341/openCVLibrary341.iml" filepath="$PROJECT_DIR$/openCVLibrary341/openCVLibrary341.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sketchy.iml" filepath="$PROJECT_DIR$/sketchy.iml" />
     </modules>
   </component>
 </project>
