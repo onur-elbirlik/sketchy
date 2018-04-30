@@ -101,7 +101,7 @@ public class ARModule {
         if (!status) { return status; }
         ImageTracker tracker = new ImageTracker();
         tracker.attachStreamer(streamer);
-        loadFromImage(tracker, "download.png");
+        loadFromImage(tracker, "marker2.png");
         trackers.add(tracker);
 
         return status;
