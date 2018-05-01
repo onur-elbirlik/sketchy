@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        galleryButton = findViewById(R.id.selectButton);
+        galleryButton = findViewById(R.id.startButton);
         imageView = findViewById(R.id.imageView);
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
