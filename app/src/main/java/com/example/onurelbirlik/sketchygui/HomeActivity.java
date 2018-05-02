@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    Button galleryButton;
+    Button galleryButton,credits;
     ImageView imageView;
     private static final int PICK_IMAGE = 100;
     Uri imageURL;
@@ -25,7 +25,15 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         galleryButton = findViewById(R.id.startButton);
+        credits = findViewById(R.id.creditsButton);
         imageView = findViewById(R.id.imageView);
+
+        credits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openCredits();
+            }
+        });
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,14 +42,19 @@ public class HomeActivity extends AppCompatActivity {
                 openGallery();
             }
         });
+
+
+    }
+
+    private void openCredits(){
+        Intent credits = new Intent(this, Credits.class);
+        startActivity(credits);
     }
     private void openGallery(){
 
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -58,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(tempIntent);
         }
     }
+
     private long mLastClickTime = 0;
     public void goTo(View view)
     {
@@ -66,11 +80,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         mLastClickTime = SystemClock.elapsedRealtime();
         Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-        startActivity(intent);
-    }
-    public void goToDisplayActivity(View view)
-    {
-        Intent intent = new Intent(HomeActivity.this, ImageToLine.class);
         startActivity(intent);
     }
 }
