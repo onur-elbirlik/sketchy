@@ -3,6 +3,8 @@ package com.example.onurelbirlik.sketchygui;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
@@ -49,10 +51,7 @@ public class BoxRenderer
             + "\n"
             ;
 
-    private String box_frag="#ifdef GL_ES\n"
-            + "precision highp float;\n"
-            + "#endif\n"
-            + "uniform sampler2D utexture;\n"
+    private String box_frag= "uniform sampler2D utexture;\n"
             + "varying vec2 vTexCoordinate;\n"
             + "\n"
             + "void main(void)\n"
@@ -66,37 +65,22 @@ public class BoxRenderer
         this.context = context;
     }
 
-    // Debug
-    /*
-    private static Bitmap getBitmapFromAsset(Context context, String filePath) {
-        AssetManager assetManager = context.getAssets();
-
-        InputStream istr;
-        Bitmap bitmap = null;
-        try {
-            istr = assetManager.open(filePath);
-            bitmap = BitmapFactory.decodeStream(istr);
-        } catch (IOException e) {
-            // handle exception
-        }
-
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-        return bitmap;
-    }
-    */
-
     public static void setBitmap(Bitmap bitmap) {
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
 
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        BoxRenderer.bitmap = bitmap;
+        BoxRenderer.bitmap = addTransparentBorder(bitmap, 4);
         bitmapLoaded = true;
+    }
+
+    private static Bitmap addTransparentBorder(Bitmap bmp, int borderSize) {
+        Bitmap bmpWithBorder = Bitmap.createBitmap(bmp.getWidth() + borderSize * 2, bmp.getHeight() + borderSize * 2, bmp.getConfig());
+        Canvas canvas = new Canvas(bmpWithBorder);
+        canvas.drawColor(Color.TRANSPARENT);
+        canvas.drawBitmap(bmp, borderSize, borderSize, null);
+        return bmpWithBorder;
     }
 
     private static int setTexture(Bitmap bitmap) {
@@ -108,8 +92,9 @@ public class BoxRenderer
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
 
             // Set filtering
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
@@ -139,8 +124,9 @@ public class BoxRenderer
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
 
             // Set filtering
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
@@ -225,56 +211,15 @@ public class BoxRenderer
         final float[] cubeTextureCoordinateData =
                 {
                         // Front face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
+                        0.5f, 0.5f,
+                        0.5f, 1.0f,
+                        1.0f, 0.5f,
+                        0.5f, 1.0f,
                         1.0f, 1.0f,
-                        1.0f, 0.0f,
-                        /*
-                        // Right face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Back face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Left face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Top face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Bottom face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f
-                        */
+                        1.0f, 0.5f,
                 };
         FloatBuffer cube_texture_buffer = FloatBuffer.wrap(cubeTextureCoordinateData);
-        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cube_texture_buffer.limit() * 4, cube_texture_buffer, GLES20.GL_DYNAMIC_DRAW);
+        GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, cube_texture_buffer.limit(), cube_texture_buffer, GLES20.GL_STATIC_DRAW);
 
         vbo_coord_box = generateOneBuffer();
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo_coord_box);
