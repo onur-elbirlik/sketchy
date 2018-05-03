@@ -19,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     Uri imageURL;
     public static Bitmap bitmap;
-
+    static int saveCounter=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

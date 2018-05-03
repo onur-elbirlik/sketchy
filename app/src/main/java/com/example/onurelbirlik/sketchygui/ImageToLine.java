@@ -2,6 +2,7 @@ package com.example.onurelbirlik.sketchygui;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -24,15 +25,18 @@ import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.features2d.Feature2D;
+import org.opencv.features2d.Features2d;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.photo.Photo;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -77,6 +81,7 @@ public class ImageToLine extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView2);
         bmCopy = bm.copy(bm.getConfig(),true);
+
         Mat input = new Mat();
         Utils.bitmapToMat(bmCopy,input);
         Mat outputGauss = new Mat();
@@ -84,16 +89,9 @@ public class ImageToLine extends AppCompatActivity {
 
         Imgproc.GaussianBlur(input, outputGauss, new Size(7, 7), 0);
         Imgproc.Canny(outputGauss, outputCanny, 0, th);
-
         Core.bitwise_not(outputCanny,outputCanny);
         Imgproc.erode(outputCanny, outputCanny, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
-        //green mask aplied
-        //Mat mask = new Mat(outputCanny.size(),CvType.CV_8UC3);
-        //Imgproc.threshold(outputCanny,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
-        //Imgproc.cvtColor(outputCanny,outputCanny,Imgproc.COLOR_GRAY2BGR);
-        //outputCanny.setTo(new Scalar(0,0,255),mask);
         Utils.matToBitmap(outputCanny,bmCopy);
-        //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageBitmap(bmCopy);
     }
     public static Bitmap createTransparentBitmapFromBitmap(Bitmap bitmap,
@@ -150,9 +148,11 @@ public class ImageToLine extends AppCompatActivity {
         return false;
     }
     public void saveButton(View view){
+
         if (isExternalStorageWritable()) {
             bm=bmCopy;
             saveImage(bm);
+
             //bm=createTransparentBitmapFromBitmap(bm,Color.WHITE);
         }else{
             Log.i("save","save fail");
@@ -160,6 +160,7 @@ public class ImageToLine extends AppCompatActivity {
     }
     public void aRButton(View view){
         bm=bmCopy;
+        HomeActivity.bitmap=bm;
         bm=createTransparentBitmapFromBitmap(bm,Color.WHITE);
         BoxRenderer.setBitmap(bm);
         Intent intent = new Intent(ImageToLine.this, DisplayActivity.class);

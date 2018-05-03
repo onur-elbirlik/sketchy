@@ -93,7 +93,6 @@ public class ARModule {
         camera = new CameraDevice();
         streamer = new CameraFrameStreamer();
         streamer.attachCamera(camera);
-
         boolean status = true;
         status &= camera.open(CameraDeviceType.Default);
         camera.setSize(new Vec2I(1280, 720));
@@ -103,7 +102,6 @@ public class ARModule {
         tracker.attachStreamer(streamer);
         loadFromImage(tracker, "marker2.png");
         trackers.add(tracker);
-
         return status;
     }
 

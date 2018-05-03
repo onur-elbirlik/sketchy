@@ -3,16 +3,36 @@ package com.example.onurelbirlik.sketchygui;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
 
+import org.opencv.android.Utils;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import cn.easyar.Engine;
@@ -29,7 +49,9 @@ public class DisplayActivity extends Activity {
      */
     private static String key = "O4Z53NNFfzfsQHk3i3FS7Z3A2wPGMB6uQX5EHanFrwsurycyqL3hafMyW5vop8U5uNNN9fhh5AdyNd3l2h15CnMga3euHChQCc87N2LyMNMflLMVjEFls2QuMXPMmgaeFGuElhnrfIUlCMI0YQZOkpZFtOnBPt8NHybKNzmBQCfIKsBzYfx2cAA6O1lqMvAtNDBwb2va";
     private GLView glView;
-
+    String[] colorNames = {"Red" , "Black", "Blue"};
+    Spinner sp;
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -37,22 +59,52 @@ public class DisplayActivity extends Activity {
         setContentView(R.layout.activity_display);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+
+
+        Spinner sp = (Spinner)findViewById(R.id.color);
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.colorNames, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp.setAdapter(adapter);
+
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String text = adapterView.getItemAtPosition(position).toString();
+                if (text == "Red")
+                {
+                    makeImageRed();
+                }
+                else if(text == "Blue"){
+                    makeImageBlue();
+                }
+                else if(text == "Black"){
+                    makeImageBlack();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         if (!Engine.initialize(this, key)) {
             Log.e("ARModule", "Initialization Failed.");
         }
 
         glView = new GLView(this);
-
         requestCameraPermission(new PermissionCallback() {
             @Override
             public void onSuccess() {
                 ((ViewGroup) findViewById(R.id.frameLayout)).addView(glView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
-
             @Override
             public void onFailure() {
             }
+
         });
+
     }
 
     private interface PermissionCallback
@@ -112,7 +164,69 @@ public class DisplayActivity extends Activity {
         if (glView != null) { glView.onPause(); }
         super.onPause();
     }
+    public void makeImageBlue()
+    {
+        Mat dest = new Mat();
+        Utils.bitmapToMat(HomeActivity.bitmap,dest);
+        Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
+        Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
+        Imgproc.threshold(dest,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
+        Imgproc.cvtColor(dest,dest,Imgproc.COLOR_GRAY2BGR);
+        dest.setTo(new Scalar(0,0,255),mask);
+        Utils.matToBitmap(dest,HomeActivity.bitmap);
+        HomeActivity.bitmap=ImageToLine.createTransparentBitmapFromBitmap(HomeActivity.bitmap,Color.WHITE);
+        BoxRenderer.setBitmap(HomeActivity.bitmap);
+        Bundle x= new Bundle();
+        this.onCreate(x);
+    }
+    public void makeImageBlack()
+    {
+        Mat dest = new Mat();
+        Utils.bitmapToMat(HomeActivity.bitmap,dest);
+        Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
+        Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
+        Imgproc.threshold(dest,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
+        Imgproc.cvtColor(dest,dest,Imgproc.COLOR_GRAY2BGR);
+        dest.setTo(new Scalar(0,0,0),mask);
+        Utils.matToBitmap(dest,HomeActivity.bitmap);
+        HomeActivity.bitmap=ImageToLine.createTransparentBitmapFromBitmap(HomeActivity.bitmap,Color.WHITE);
+        BoxRenderer.setBitmap(HomeActivity.bitmap);
+        Bundle x= new Bundle();
+        this.onCreate(x);
+    }
+    public void makeImageRed()
+    {
+        Mat dest = new Mat();
+        Utils.bitmapToMat(HomeActivity.bitmap,dest);
+        Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
+        Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
+        Imgproc.threshold(dest,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
+        Imgproc.cvtColor(dest,dest,Imgproc.COLOR_GRAY2BGR);
+        dest.setTo(new Scalar(255,0,0),mask);
+        Utils.matToBitmap(dest,HomeActivity.bitmap);
+        HomeActivity.bitmap=ImageToLine.createTransparentBitmapFromBitmap(HomeActivity.bitmap,Color.WHITE);
+        BoxRenderer.setBitmap(HomeActivity.bitmap);
+        Bundle x= new Bundle();
+        this.onCreate(x);
+    }
+    /*private Bitmap getBitmapFromAssets(String fileName){
+        AssetManager am = getAssets();
+        InputStream is = null;
+        try{
 
+            is = am.open(fileName);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        Bitmap bitmap = BitmapFactory.decodeStream(is);
+        return bitmap;
+    }
+    public void openGrid(){
+        ImageView imageView = (ImageView) findViewById(R.id.imageView2);
+        Bitmap x = getBitmapFromAssets("grid.png");
+        bm = x;
+        imageView.setImageBitmap(bm);
+    }*/
     /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
