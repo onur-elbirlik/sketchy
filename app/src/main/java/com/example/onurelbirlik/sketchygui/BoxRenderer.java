@@ -51,6 +51,7 @@ public class BoxRenderer
             + "\n"
             ;
 
+
     private String box_frag="#ifdef GL_ES\n"
             + "precision highp float;\n"
             + "#endif\n"
