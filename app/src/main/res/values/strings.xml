@@ -3,6 +3,7 @@
     <string name="ata_s_activity">Ata\'s Activity</string>
     <string name="ata">Ata</string>
     <string-array name="colorNames">
+        <item> </item>
         <item>Red</item>
         <item>Black</item>
         <item>Blue</item>
