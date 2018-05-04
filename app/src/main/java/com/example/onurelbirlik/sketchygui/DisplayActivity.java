@@ -49,40 +49,44 @@ public class DisplayActivity extends Activity {
      */
     private static String key = "O4Z53NNFfzfsQHk3i3FS7Z3A2wPGMB6uQX5EHanFrwsurycyqL3hafMyW5vop8U5uNNN9fhh5AdyNd3l2h15CnMga3euHChQCc87N2LyMNMflLMVjEFls2QuMXPMmgaeFGuElhnrfIUlCMI0YQZOkpZFtOnBPt8NHybKNzmBQCfIKsBzYfx2cAA6O1lqMvAtNDBwb2va";
     private GLView glView;
-    String[] colorNames = {"Red" , "Black", "Blue"};
+    
     Spinner sp;
-    ArrayAdapter<String> adapter;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-
-
-        Spinner sp = (Spinner)findViewById(R.id.color);
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.colorNames, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        
+        ArrayAdapter adapter;
+        adapter = ArrayAdapter.createFromResource(this, R.array.colorNames, android.R.layout.simple_spinner_item);
+        final Spinner sp = (Spinner)findViewById(R.id.color);
         sp.setAdapter(adapter);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                String text = adapterView.getItemAtPosition(position).toString();
-                if (text == "Red")
+
+                String text = new String(adapterView.getItemAtPosition(position).toString());
+                System.out.println(text);
+                if (text.equals("Red"))
                 {
+                    System.out.println("Image is red");
                     makeImageRed();
                 }
-                else if(text == "Blue"){
+                else if(text.equals("Blue")){
+                    System.out.println("Image is blue");
                     makeImageBlue();
                 }
-                else if(text == "Black"){
+                else if(text.equals("Black")){
+                    System.out.println("Image is black");
                     makeImageBlack();
                 }
 
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -167,45 +171,48 @@ public class DisplayActivity extends Activity {
     public void makeImageBlue()
     {
         Mat dest = new Mat();
-        Utils.bitmapToMat(HomeActivity.bitmap,dest);
+        Bitmap bm = HomeActivity.bitmap;
+        Utils.bitmapToMat(bm,dest);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
         Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
         Imgproc.threshold(dest,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_GRAY2BGR);
         dest.setTo(new Scalar(0,0,255),mask);
-        Utils.matToBitmap(dest,HomeActivity.bitmap);
-        HomeActivity.bitmap=ImageToLine.createTransparentBitmapFromBitmap(HomeActivity.bitmap,Color.WHITE);
-        BoxRenderer.setBitmap(HomeActivity.bitmap);
+        Utils.matToBitmap(dest,bm);
+        bm=ImageToLine.createTransparentBitmapFromBitmap(bm,Color.WHITE);
+        BoxRenderer.setBitmap(bm);
         Bundle x= new Bundle();
         this.onCreate(x);
     }
     public void makeImageBlack()
     {
         Mat dest = new Mat();
-        Utils.bitmapToMat(HomeActivity.bitmap,dest);
+        Bitmap bm = HomeActivity.bitmap;
+        Utils.bitmapToMat(bm,dest);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
         Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
         Imgproc.threshold(dest,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_GRAY2BGR);
         dest.setTo(new Scalar(0,0,0),mask);
-        Utils.matToBitmap(dest,HomeActivity.bitmap);
-        HomeActivity.bitmap=ImageToLine.createTransparentBitmapFromBitmap(HomeActivity.bitmap,Color.WHITE);
-        BoxRenderer.setBitmap(HomeActivity.bitmap);
+        Utils.matToBitmap(dest,bm);
+        bm=ImageToLine.createTransparentBitmapFromBitmap(bm,Color.WHITE);
+        BoxRenderer.setBitmap(bm);
         Bundle x= new Bundle();
         this.onCreate(x);
     }
     public void makeImageRed()
     {
         Mat dest = new Mat();
-        Utils.bitmapToMat(HomeActivity.bitmap,dest);
+        Bitmap bm = HomeActivity.bitmap;
+        Utils.bitmapToMat(bm,dest);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
         Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
         Imgproc.threshold(dest,mask,0,255,Imgproc.THRESH_BINARY_INV|Imgproc.THRESH_OTSU);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_GRAY2BGR);
         dest.setTo(new Scalar(255,0,0),mask);
-        Utils.matToBitmap(dest,HomeActivity.bitmap);
-        HomeActivity.bitmap=ImageToLine.createTransparentBitmapFromBitmap(HomeActivity.bitmap,Color.WHITE);
-        BoxRenderer.setBitmap(HomeActivity.bitmap);
+        Utils.matToBitmap(dest,bm);
+        bm=ImageToLine.createTransparentBitmapFromBitmap(bm,Color.WHITE);
+        BoxRenderer.setBitmap(bm);
         Bundle x= new Bundle();
         this.onCreate(x);
     }
