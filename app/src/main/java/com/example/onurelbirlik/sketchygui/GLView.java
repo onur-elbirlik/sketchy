@@ -17,6 +17,10 @@ public class GLView extends GLSurfaceView {
     private ARModule arModule;
     private ScaleGestureDetector scaleGestureDetector;
 
+    private final int MOVE_FACTOR = 2000;
+    private float previousX = -1.0f;
+    private float previousY = -1.0f;
+
     public GLView(Context context)
     {
         super(context);
@@ -155,15 +159,24 @@ public class GLView extends GLSurfaceView {
         float x = event.getX();
         float y = event.getY();
 
-        int center_x = this.getWidth() / 2;
-        int center_y = this.getHeight() / 2;
+        if(previousX == -1.0f && previousY == -1.0f) {
+            previousX = x;
+            previousY = y;
+        }
 
-        float x_shift = (x - center_x) / 20000;
-        float y_shift = (y - center_y) / 20000;
+        float dx = (x - previousX) / MOVE_FACTOR;
+        float dy = (y - previousY) / MOVE_FACTOR;
 
-        BoxRenderer.shiftX -= x_shift;
-        BoxRenderer.shiftY -= y_shift;
+        BoxRenderer.shiftX -= dx;
+        BoxRenderer.shiftY -= dy;
 
+        previousX = x;
+        previousY = y;
+
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            previousX = -1.0f;
+            previousY = -1.0f;
+        }
         return true;
     }
 
