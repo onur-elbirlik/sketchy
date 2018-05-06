@@ -1,11 +1,15 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\ATA\\Desktop\\opencv\\sketchy-SketchyGUI\\sketchy-SketchyGUI\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "outputFile": "/Users/onur.elbirlik/Documents/SketchyDemo/sketchy/C:\\Users\\ATA\\Desktop\\opencv\\sketchy-SketchyGUI\\sketchy-SketchyGUI\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
             "map": []
         },
         {
-            "outputFile": "C:\\Users\\ATA\\Desktop\\SketchyFinal\\sketchy\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "outputFile": "/Users/onur.elbirlik/Documents/SketchyDemo/sketchy/C:\\Users\\ATA\\Desktop\\SketchyFinal\\sketchy\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "map": []
+        },
+        {
+            "outputFile": "/Users/onur.elbirlik/Documents/SketchyDemo/sketchy/openCVLibrary341/build/intermediates/res/merged/androidTest/debug/values_values.arsc.flat",
             "map": []
         }
     ]

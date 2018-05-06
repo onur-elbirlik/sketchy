@@ -47,8 +47,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void openCredits(){
-        Intent credits = new Intent(this, Credits.class);
-        startActivity(credits);
+        Intent TakePictureCamera = new Intent(this, TakePictureCamera.class);
+        startActivity(TakePictureCamera);
     }
     private void openGallery(){
 
