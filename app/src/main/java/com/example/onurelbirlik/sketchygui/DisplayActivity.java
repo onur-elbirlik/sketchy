@@ -3,26 +3,18 @@ package com.example.onurelbirlik.sketchygui;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import org.opencv.android.Utils;
@@ -31,8 +23,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 
 import cn.easyar.Engine;
@@ -171,7 +161,7 @@ public class DisplayActivity extends Activity {
     public void makeImageBlue()
     {
         Mat dest = new Mat();
-        Bitmap bm = HomeActivity.bitmap;
+        Bitmap bm = TakePictureCamera.bitmap;
         Utils.bitmapToMat(bm,dest);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
         Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
@@ -187,7 +177,7 @@ public class DisplayActivity extends Activity {
     public void makeImageBlack()
     {
         Mat dest = new Mat();
-        Bitmap bm = HomeActivity.bitmap;
+        Bitmap bm = TakePictureCamera.bitmap;
         Utils.bitmapToMat(bm,dest);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
         Mat mask = new Mat(dest.size(), CvType.CV_8UC3);
@@ -203,7 +193,7 @@ public class DisplayActivity extends Activity {
     public void makeImageRed()
     {
         Mat dest = new Mat();
-        Bitmap bm = HomeActivity.bitmap;
+        Bitmap bm = TakePictureCamera.bitmap;
         Utils.bitmapToMat(bm,dest);
         Imgproc.cvtColor(dest,dest,Imgproc.COLOR_BGRA2GRAY);
         Mat mask = new Mat(dest.size(), CvType.CV_8UC3);

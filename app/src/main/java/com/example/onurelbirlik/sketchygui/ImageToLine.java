@@ -1,49 +1,27 @@
 package com.example.onurelbirlik.sketchygui;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
-import android.graphics.drawable.VectorDrawable;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.features2d.Feature2D;
-import org.opencv.features2d.Features2d;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.photo.Photo;
+
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
 
 public class ImageToLine extends AppCompatActivity {
-    Bitmap bm = HomeActivity.bitmap;
+    Bitmap bm = TakePictureCamera.bitmap;
     Bitmap bmCopy;
     static{
         if(!OpenCVLoader.initDebug()){
@@ -160,7 +138,7 @@ public class ImageToLine extends AppCompatActivity {
     }
     public void aRButton(View view){
         bm=bmCopy;
-        HomeActivity.bitmap=bm;
+        TakePictureCamera.bitmap=bm;
         bm=createTransparentBitmapFromBitmap(bm,Color.WHITE);
         BoxRenderer.setBitmap(bm);
         Intent intent = new Intent(ImageToLine.this, DisplayActivity.class);

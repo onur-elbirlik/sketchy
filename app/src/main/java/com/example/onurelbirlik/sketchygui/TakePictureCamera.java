@@ -33,50 +33,45 @@ public class TakePictureCamera extends AppCompatActivity {
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //onBackPressed();
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent,0);
             }
-
 
         });
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                openGallery();
+                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(gallery, PICK_IMAGE);
             }
         });
 
     }
-    private void openGallery(){
 
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
-    }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if( resultCode == RESULT_OK && requestCode == PICK_IMAGE)
+        if( resultCode == RESULT_OK)
         {
-                imageURL = data.getData();
-                imageView.setImageURI(imageURL);
-                imageView.setVisibility(View.INVISIBLE);
-                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                bitmap = drawable.getBitmap();
-                Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
-                startActivity(tempIntent);
+            imageURL = data.getData();
+            imageView.setImageURI(imageURL);
+            //imageView.setVisibility(View.INVISIBLE);
+            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+            bitmap = drawable.getBitmap();
+            if(bitmap.getWidth()>1200||bitmap.getHeight()>1200)
+                bitmap=Bitmap.createScaledBitmap(bitmap,1000, 1000, true);
+            Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
+            startActivity(tempIntent);
         }
-        else if(resultCode == RESULT_OK){
+        /*else if(resultCode == RESULT_OK){
             imageURL = data.getData();
             imageView2.setImageURI(imageURL);
             imageView2.setVisibility(View.INVISIBLE);
             BitmapDrawable drawable = (BitmapDrawable) imageView2.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
-            TakePictureCamera.bitmap=bitmap;
+            bitmap = drawable.getBitmap();
             Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
             startActivity(tempIntent);
-        }
+        }*/
 
     }
 }
-
