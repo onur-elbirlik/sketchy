@@ -2,13 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/select"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.onurelbirlik.sketchygui.TakePictureCamera">
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="9"
@@ -16,13 +17,32 @@
 
     <Button
         android:id="@+id/btnCamera"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@android:color/holo_red_dark"
-        android:textColor="@android:color/white"
-        android:text="Open Camera"
-        />
+        android:layout_width="385dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="47dp"
+        android:text="Take a Photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/selectImage"
+        android:layout_width="385dp"
+        android:layout_height="72dp"
+        android:layout_marginBottom="47dp"
+        android:text="Select Image From Gallery"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.922" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:srcCompat="@android:drawable/ic_dialog_dialer"
+        tools:layout_editor_absoluteX="69dp"
+        tools:layout_editor_absoluteY="168dp" />
 
 </android.support.constraint.ConstraintLayout>
