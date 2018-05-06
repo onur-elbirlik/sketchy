@@ -2,6 +2,8 @@ package com.example.onurelbirlik.sketchygui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,8 +36,12 @@ public class TakePictureCamera extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            HomeActivity.bitmap = bitmap;
+            Uri imageURL = data.getData();
+            imageView.setImageURI(imageURL);
+            imageView.setVisibility(View.INVISIBLE);
+            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            HomeActivity.bitmap=bitmap;
             Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
             startActivity(tempIntent);
         }
