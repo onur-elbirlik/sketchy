@@ -34,18 +34,21 @@ public class ImageToLine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
         if(bm.getWidth()>1200||bm.getHeight()>1200)
             bm=Bitmap.createScaledBitmap(bm,1000, 1000, true);
+            */
         setContentView(R.layout.activity_image_to_line);
         detectEdges(100);
         SeekBar s1 = (SeekBar) findViewById(R.id.seekBar3);
         s1.setProgress(100);
         threshHold=s1.getProgress();
-        s1.setMax(500);
+        s1.setMax(400);
         s1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progressChanged = 100;
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                threshHold=i;
+                threshHold = i + progressChanged;
                 detectEdges(threshHold);
                 System.out.println("test "+i);
             }
@@ -68,7 +71,7 @@ public class ImageToLine extends AppCompatActivity {
         Imgproc.GaussianBlur(input, outputGauss, new Size(7, 7), 0);
         Imgproc.Canny(outputGauss, outputCanny, 0, th);
         Core.bitwise_not(outputCanny,outputCanny);
-        Imgproc.erode(outputCanny, outputCanny, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
+        //Imgproc.erode(outputCanny, outputCanny, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
         Utils.matToBitmap(outputCanny,bmCopy);
         imageView.setImageBitmap(bmCopy);
     }
@@ -142,6 +145,20 @@ public class ImageToLine extends AppCompatActivity {
         bm=createTransparentBitmapFromBitmap(bm,Color.WHITE);
         BoxRenderer.setBitmap(bm);
         Intent intent = new Intent(ImageToLine.this, DisplayActivity.class);
+        startActivity(intent);
+    }
+
+    public void layering(View view)
+    {
+        ImageView imageView = (ImageView) findViewById(R.id.imageView2);
+        Intent intent = new Intent(ImageToLine.this, CropActivity.class);
+        bm=bmCopy;
+        //TakePictureCamera.bitmap=bm;
+        bm=createTransparentBitmapFromBitmap(bm,Color.WHITE);
+        BoxRenderer.setBitmap(bm);
+        TakePictureCamera.bitmap=bm;
+        System.out.println(imageView.getWidth());
+        System.out.println(imageView.getHeight());
         startActivity(intent);
     }
 

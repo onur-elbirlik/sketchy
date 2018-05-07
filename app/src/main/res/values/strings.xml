@@ -8,4 +8,5 @@
         <item>Black</item>
         <item>Blue</item>
     </string-array>
+    <string name="title_activity_crop">CropActivity</string>
 </resources>

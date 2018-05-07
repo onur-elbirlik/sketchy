@@ -57,7 +57,7 @@ public class TakePictureCamera extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-/*        if(requestCode == PICK_IMAGE && resultCode== RESULT_OK)
+     if(requestCode == PICK_IMAGE && resultCode == RESULT_OK)
         {
            imageURL = data.getData();
             imageView.setImageURI(imageURL);
@@ -65,9 +65,9 @@ public class TakePictureCamera extends AppCompatActivity {
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             bitmap = drawable.getBitmap();
             Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
-            startActivity(tempIntent);*//*
+            startActivity(tempIntent);
 
-        }*/
+        }
         if(resultCode == RESULT_OK){
             imageURL = data.getData();
             bitmap = readBitmap(imageURL);

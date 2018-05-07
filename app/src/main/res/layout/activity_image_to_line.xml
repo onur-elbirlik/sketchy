@@ -39,9 +39,7 @@
         android:layout_width="87dp"
         android:layout_height="57dp"
         android:layout_marginBottom="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/buttonstyle"
@@ -50,8 +48,10 @@
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/aRbutton"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/aRbutton"
@@ -59,7 +59,6 @@
         android:layout_height="57dp"
         android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
         android:background="@drawable/buttonstyle"
@@ -68,8 +67,24 @@
         android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.779"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
+
+    <Button
+        android:id="@+id/layerButton"
+        android:layout_width="87dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/buttonstyle"
+        android:onClick="layering"
+        android:text="Layer"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/aRbutton"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

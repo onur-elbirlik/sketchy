@@ -25,7 +25,11 @@
         <activity android:name=".Credits" />
         <activity android:name=".DisplayActivity" />
         <activity android:name=".ImageToLine" />
-        <activity android:name=".TakePictureCamera"></activity>
+        <activity android:name=".TakePictureCamera" />
+        <activity
+            android:name=".CropActivity"
+            android:label="@string/title_activity_crop"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
