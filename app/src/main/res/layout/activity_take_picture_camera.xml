@@ -17,32 +17,56 @@
 
     <Button
         android:id="@+id/btnCamera"
-        android:layout_width="385dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="47dp"
+        android:layout_width="300"
+        android:layout_height="67dp"
+        android:layout_marginBottom="300dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="210dp"
+        android:background="@drawable/buttonstyle"
         android:text="Take a Photo"
+        android:textColor="#696969"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/selectImage"
-        android:layout_width="385dp"
+        android:layout_width="300"
         android:layout_height="72dp"
-        android:layout_marginBottom="47dp"
+        android:layout_marginBottom="210dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="300dp"
+        android:background="@drawable/buttonstyle"
         android:text="Select Image From Gallery"
+        android:textColor="#696969"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.922" />
+        app:layout_constraintTop_toTopOf="@+id/imageView1" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
-        app:srcCompat="@android:drawable/ic_dialog_dialer"
-        tools:layout_editor_absoluteX="69dp"
-        tools:layout_editor_absoluteY="168dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Start With"
+        android:textColor="#696969"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnCamera"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
