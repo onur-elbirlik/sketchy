@@ -1,7 +1,9 @@
 package com.example.onurelbirlik.sketchygui;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -10,6 +12,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class TakePictureCamera extends AppCompatActivity {
 
@@ -52,19 +57,18 @@ public class TakePictureCamera extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == PICK_IMAGE)
+/*        if(requestCode == PICK_IMAGE && resultCode== RESULT_OK)
         {
-            imageURL = data.getData();
+           imageURL = data.getData();
             imageView.setImageURI(imageURL);
             imageView.setVisibility(View.INVISIBLE);
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             bitmap = drawable.getBitmap();
-            System.out.println("Bu ifteyim");
             Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
-            startActivity(tempIntent);
+            startActivity(tempIntent);*//*
 
-        }
-        else if(resultCode == RESULT_OK){
+        }*/
+        if(resultCode == RESULT_OK){
             imageURL = data.getData();
             bitmap = readBitmap(imageURL);
             Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
