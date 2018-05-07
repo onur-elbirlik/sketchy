@@ -24,7 +24,8 @@ public class BoxRenderer
     private Context context;
     private static Bitmap bitmap;
     private static boolean bitmapLoaded = false;
-
+    public static float size0 = 1.0f;
+    public static float size1 = 1.0f;
     private int program_box;
     private int pos_coord_box;
     private int pos_trans_box;
@@ -291,8 +292,8 @@ public class BoxRenderer
 
     public void render(Matrix44F projectionMatrix, Matrix44F cameraview, Vec2F size)
     {
-        float size0 = size.data[0] * scaleFactor;
-        float size1 = size.data[1] * scaleFactor;
+        size0 = size.data[0] * scaleFactor;
+        size1 = size.data[1] * scaleFactor;
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle);
