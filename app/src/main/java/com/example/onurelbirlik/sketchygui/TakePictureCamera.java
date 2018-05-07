@@ -51,27 +51,46 @@ public class TakePictureCamera extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if( resultCode == RESULT_OK)
+
+        if(requestCode == PICK_IMAGE)
         {
             imageURL = data.getData();
             imageView.setImageURI(imageURL);
-            //imageView.setVisibility(View.INVISIBLE);
+            imageView.setVisibility(View.INVISIBLE);
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             bitmap = drawable.getBitmap();
-            if(bitmap.getWidth()>1200||bitmap.getHeight()>1200)
-                bitmap=Bitmap.createScaledBitmap(bitmap,1000, 1000, true);
+            System.out.println("Bu ifteyim");
+            Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
+            startActivity(tempIntent);
+
+        }
+        else if(resultCode == RESULT_OK){
+            imageURL = data.getData();
+            bitmap = readBitmap(imageURL);
             Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
             startActivity(tempIntent);
         }
-        /*else if(resultCode == RESULT_OK){
-            imageURL = data.getData();
-            imageView2.setImageURI(imageURL);
-            imageView2.setVisibility(View.INVISIBLE);
-            BitmapDrawable drawable = (BitmapDrawable) imageView2.getDrawable();
-            bitmap = drawable.getBitmap();
-            Intent tempIntent = new Intent(TakePictureCamera.this, ImageToLine.class);
-            startActivity(tempIntent);
-        }*/
 
     }
+    public Bitmap readBitmap(Uri selectedImage) {
+        Bitmap bm = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 5;
+        AssetFileDescriptor fileDescriptor =null;
+        try {
+            fileDescriptor = this.getContentResolver().openAssetFileDescriptor(selectedImage,"r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        finally{
+            try {
+                bm = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor(), null, options);
+                fileDescriptor.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return bm;
+    }
+
 }
