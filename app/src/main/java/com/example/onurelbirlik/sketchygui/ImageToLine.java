@@ -72,7 +72,6 @@ public class ImageToLine extends AppCompatActivity {
         Utils.matToBitmap(outputCanny,bmCopy);
         imageView.setImageBitmap(bmCopy);
         imageView.setRotation(90);
-
     }
     public static Bitmap createTransparentBitmapFromBitmap(Bitmap bitmap,
                                                            int replaceThisColor) {
