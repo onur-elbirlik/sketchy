@@ -104,7 +104,12 @@ public class DisplayActivity extends Activity {
                 Log.e("ARModule", "Initialization Failed.");
             }
 
-            glView = new GLView(this);
+            TextView mTextView = findViewById(R.id.textViewHeight);
+            TextView mTextView1 = findViewById(R.id.textViewWidth);
+            mTextView.setText(Float.toString(BoxRenderer.size1));
+            mTextView1.setText(Float.toString(BoxRenderer.size0));
+
+            glView = new GLView(this, mTextView, mTextView1);
             requestCameraPermission(new PermissionCallback() {
                 @Override
                 public void onSuccess() {
@@ -115,11 +120,6 @@ public class DisplayActivity extends Activity {
                 }
 
             });
-        TextView mTextView = findViewById(R.id.textViewHeight);
-        TextView mTextView1 = findViewById(R.id.textViewWidth);
-        mTextView.setText(Float.toString(BoxRenderer.size1));
-        mTextView1.setText(Float.toString(BoxRenderer.size0));
-        // CW THIS IS THE PART THAT WE PULL THE TEXTVIEWS FROM XML AND SET IT
     }
 
     private interface PermissionCallback

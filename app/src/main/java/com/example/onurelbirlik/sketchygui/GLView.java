@@ -10,6 +10,7 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.widget.TextView;
 
 import cn.easyar.Engine;
 
@@ -17,15 +18,21 @@ public class GLView extends GLSurfaceView {
     private ARModule arModule;
     private ScaleGestureDetector scaleGestureDetector;
 
+    private TextView heightText;
+    private TextView widthText;
+
     private final int MOVE_FACTOR = 2000;
     private float previousX = -1.0f;
     private float previousY = -1.0f;
 
-    public GLView(Context context)
+    public GLView(Context context, TextView height, TextView width)
     {
         super(context);
         setEGLContextFactory(new ContextFactory());
         setEGLConfigChooser(new ConfigChooser());
+
+        heightText = height;
+        widthText = width;
 
         arModule = new ARModule(context);
 
@@ -155,6 +162,9 @@ public class GLView extends GLSurfaceView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
+
+        heightText.setText(Float.toString(BoxRenderer.size1));
+        widthText.setText(Float.toString(BoxRenderer.size0));
 
         float x = event.getX();
         float y = event.getY();
