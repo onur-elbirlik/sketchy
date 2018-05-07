@@ -42,7 +42,6 @@ public class TakePictureCamera extends AppCompatActivity {
                 imageFromCamera=true;
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent,0);
-
             }
 
         });

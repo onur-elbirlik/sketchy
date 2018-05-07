@@ -24,8 +24,8 @@ public class BoxRenderer
     private Context context;
     private static Bitmap bitmap;
     private static boolean bitmapLoaded = false;
-    public static float size0 = 1.0f;
-    public static float size1 = 1.0f;
+    public static float size0 = 2.0f;
+    public static float size1 = 2.0f;
     private int program_box;
     private int pos_coord_box;
     private int pos_trans_box;

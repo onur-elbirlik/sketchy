@@ -9,31 +9,100 @@
     <Spinner
         android:id="@+id/color"
 
-        android:layout_width="33dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="15dp"
         android:layout_alignTop="@+id/textView2"
-        android:layout_marginStart="-77dp"
-        android:layout_toEndOf="@+id/textView2" />
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="80dp"
-        android:layout_marginTop="22dp"
+        android:layout_alignBaseline="@+id/editTextWidth"
+        android:layout_alignBottom="@+id/editTextWidth"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:textColor="#696969"
+        android:textSize="10sp"
+        android:layout_toEndOf="@+id/textViewWidth"
+        android:layout_toRightOf="@+id/textViewWidth"
         android:text="Change Color " />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView2"
-        android:layout_toLeftOf="@+id/color"
-        android:layout_toStartOf="@+id/color">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editTextHeight">
 
 
     </FrameLayout>
+
+    <EditText
+        android:id="@+id/editTextHeight"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:backgroundTint="@android:color/transparent"
+        android:ems="10"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:text="Height:"
+        android:textColor="#696969"
+        android:textSize="10sp"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextWidth"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textViewHeight"
+        android:layout_toRightOf="@+id/textViewHeight"
+        android:backgroundTint="@android:color/transparent"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:text="Width:"
+        android:textColor="#696969"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewWidth"
+        android:layout_alignBottom="@+id/textViewWidth"
+        android:layout_toEndOf="@+id/editTextHeight"
+        android:layout_toRightOf="@+id/editTextHeight"
+        android:text="TextView"
+        android:textColor="#696969"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/textViewWidth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_toEndOf="@+id/editTextWidth"
+        android:layout_toRightOf="@+id/editTextWidth"
+
+        android:text="TextView"
+        android:textColor="#696969"
+        android:textSize="10sp" />
+
 
 </RelativeLayout>

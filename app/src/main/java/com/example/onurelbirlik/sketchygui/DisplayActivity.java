@@ -10,12 +10,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
@@ -39,66 +42,84 @@ public class DisplayActivity extends Activity {
      */
     private static String key = "O4Z53NNFfzfsQHk3i3FS7Z3A2wPGMB6uQX5EHanFrwsurycyqL3hafMyW5vop8U5uNNN9fhh5AdyNd3l2h15CnMga3euHChQCc87N2LyMNMflLMVjEFls2QuMXPMmgaeFGuElhnrfIUlCMI0YQZOkpZFtOnBPt8NHybKNzmBQCfIKsBzYfx2cAA6O1lqMvAtNDBwb2va";
     private GLView glView;
-    
+
     Spinner sp;
-    
     @Override
+
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        
-        ArrayAdapter adapter;
-        adapter = ArrayAdapter.createFromResource(this, R.array.colorNames, android.R.layout.simple_spinner_item);
-        final Spinner sp = (Spinner)findViewById(R.id.color);
-        sp.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_display);
+            /*View.OnTouchListener newTouch = new View.OnTouchListener(){
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            public boolean onTouch(View v, MotionEvent event){
+                TextView mTextView = findViewById(R.id.textViewHeight);
 
-                String text = new String(adapterView.getItemAtPosition(position).toString());
-                System.out.println(text);
-                if (text.equals("Red"))
-                {
-                    System.out.println("Image is red");
-                    makeImageRed();
+                TextView mTextView1 = findViewById(R.id.textViewWidth);
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    mTextView.setText(Float.toString(BoxRenderer.size1));
+                    mTextView1.setText(Float.toString(BoxRenderer.size0));
+                    return true;
                 }
-                else if(text.equals("Blue")){
-                    System.out.println("Image is blue");
-                    makeImageBlue();
+                return true;
+            }
+            R.layout.activity_display(onTouch(newTouch));
+
+             };*/
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            ArrayAdapter adapter;
+            adapter = ArrayAdapter.createFromResource(this, R.array.colorNames, android.R.layout.simple_spinner_item);
+            final Spinner sp = (Spinner)findViewById(R.id.color);
+            sp.setAdapter(adapter);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+
+                    String text = new String(adapterView.getItemAtPosition(position).toString());
+                    System.out.println(text);
+                    if (text.equals("Red"))
+                    {
+                        System.out.println("Image is red");
+                        makeImageRed();
+                    }
+                    else if(text.equals("Blue")){
+                        System.out.println("Image is blue");
+                        makeImageBlue();
+                    }
+                    else if(text.equals("Black")){
+                        System.out.println("Image is black");
+                        makeImageBlack();
+                    }
+
                 }
-                else if(text.equals("Black")){
-                    System.out.println("Image is black");
-                    makeImageBlack();
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+            if (!Engine.initialize(this, key)) {
+                Log.e("ARModule", "Initialization Failed.");
+            }
+
+            glView = new GLView(this);
+            requestCameraPermission(new PermissionCallback() {
+                @Override
+                public void onSuccess() {
+                    ((ViewGroup) findViewById(R.id.frameLayout)).addView(glView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                }
+                @Override
+                public void onFailure() {
                 }
 
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        if (!Engine.initialize(this, key)) {
-            Log.e("ARModule", "Initialization Failed.");
-        }
-
-        glView = new GLView(this);
-        requestCameraPermission(new PermissionCallback() {
-            @Override
-            public void onSuccess() {
-                ((ViewGroup) findViewById(R.id.frameLayout)).addView(glView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            }
-            @Override
-            public void onFailure() {
-            }
-
-        });
-
+            });
+        TextView mTextView = findViewById(R.id.textViewHeight);
+        TextView mTextView1 = findViewById(R.id.textViewWidth);
+        mTextView.setText(Float.toString(BoxRenderer.size1));
+        mTextView1.setText(Float.toString(BoxRenderer.size0));
+        // CW THIS IS THE PART THAT WE PULL THE TEXTVIEWS FROM XML AND SET IT
     }
 
     private interface PermissionCallback
@@ -206,6 +227,8 @@ public class DisplayActivity extends Activity {
         Bundle x= new Bundle();
         this.onCreate(x);
     }
+
+
     /*private Bitmap getBitmapFromAssets(String fileName){
         AssetManager am = getAssets();
         InputStream is = null;
@@ -244,4 +267,6 @@ public class DisplayActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
     */
+
+
 }
