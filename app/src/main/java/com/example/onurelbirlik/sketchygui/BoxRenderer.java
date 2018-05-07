@@ -75,10 +75,12 @@ public class BoxRenderer
 
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
+        /*
         Matrix horMatrix = new Matrix();
         horMatrix.postScale(-1, 1, bitmap.getWidth()/2f, bitmap.getHeight()/2f);
 
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), horMatrix, true);
+        */
 
         BoxRenderer.bitmap = addTransparentBorder(bitmap, 4);
         bitmapLoaded = true;
