@@ -82,7 +82,7 @@ public class TakePictureCamera extends AppCompatActivity {
     public Bitmap readBitmap(Uri selectedImage) {
         Bitmap bm = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 5;
+        options.inSampleSize = 3;
         AssetFileDescriptor fileDescriptor =null;
         try {
             fileDescriptor = this.getContentResolver().openAssetFileDescriptor(selectedImage,"r");

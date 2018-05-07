@@ -106,8 +106,9 @@ public class DisplayActivity extends Activity {
 
             TextView mTextView = findViewById(R.id.textViewHeight);
             TextView mTextView1 = findViewById(R.id.textViewWidth);
-            mTextView.setText(Float.toString(BoxRenderer.size1));
-            mTextView1.setText(Float.toString(BoxRenderer.size0));
+
+            mTextView.setText(String.format("%.1f",(BoxRenderer.size1/2*7)));
+            mTextView1.setText(String.format("%.1f",(BoxRenderer.size0/2*7)));
 
             glView = new GLView(this, mTextView, mTextView1);
             requestCameraPermission(new PermissionCallback() {

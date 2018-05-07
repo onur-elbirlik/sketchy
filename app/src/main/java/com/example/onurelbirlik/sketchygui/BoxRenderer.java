@@ -72,8 +72,10 @@ public class BoxRenderer
 
     public static void setBitmap(Bitmap bitmap) {
         Matrix matrix = new Matrix();
-
-        matrix.postRotate(90);
+        if(TakePictureCamera.imageFromCamera)
+            matrix.postRotate(180);
+        else
+            matrix.postRotate(90);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         /*

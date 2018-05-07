@@ -2,6 +2,7 @@ package com.example.onurelbirlik.sketchygui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -34,8 +35,8 @@ public class ImageToLine extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(bm.getWidth()>1200||bm.getHeight()>1200)
-            bm=Bitmap.createScaledBitmap(bm,1000, 1000, true);
+        //if(bm.getWidth()>1200||bm.getHeight()>1200)
+          //  bm=Bitmap.createScaledBitmap(bm,1000, 1000, true);
         setContentView(R.layout.activity_image_to_line);
         detectEdges(100);
         SeekBar s1 = (SeekBar) findViewById(R.id.seekBar3);
@@ -71,8 +72,10 @@ public class ImageToLine extends AppCompatActivity {
         Imgproc.erode(outputCanny, outputCanny, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)));
         Utils.matToBitmap(outputCanny,bmCopy);
         imageView.setImageBitmap(bmCopy);
-        if(TakePictureCamera.imageFromCamera)
+        if(TakePictureCamera.imageFromCamera) {
             imageView.setRotation(90);
+        }
+
     }
     public static Bitmap createTransparentBitmapFromBitmap(Bitmap bitmap,
                                                            int replaceThisColor) {

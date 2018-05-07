@@ -163,8 +163,8 @@ public class GLView extends GLSurfaceView {
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
 
-        heightText.setText(Float.toString(BoxRenderer.size1));
-        widthText.setText(Float.toString(BoxRenderer.size0));
+        heightText.setText(String.format("%.1f",(BoxRenderer.size1/2*7)));
+        widthText.setText(String.format("%.1f",(BoxRenderer.size0/2*7)));
 
         float x = event.getX();
         float y = event.getY();
