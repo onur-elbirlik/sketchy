@@ -71,19 +71,27 @@ public class BoxRenderer
     }
 
     public static void setBitmap(Bitmap bitmap) {
-        Matrix matrix = new Matrix();
-        if(TakePictureCamera.imageFromCamera)
-            matrix.postRotate(180);
-        else
+        if(!TakePictureCamera.imageFromCamera) {
+            Matrix matrix = new Matrix();
+
             matrix.postRotate(90);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
-        /*
-        Matrix horMatrix = new Matrix();
-        horMatrix.postScale(-1, 1, bitmap.getWidth()/2f, bitmap.getHeight()/2f);
+            Matrix horMatrix = new Matrix();
+            horMatrix.postScale(1, -1, bitmap.getWidth() / 2f, bitmap.getHeight() / 2f);
 
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), horMatrix, true);
-        */
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), horMatrix, true);
+        } else {
+            Matrix matrix = new Matrix();
+
+            matrix.postRotate(180);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+            Matrix horMatrix = new Matrix();
+            horMatrix.postScale(1, -1, bitmap.getWidth() / 2f, bitmap.getHeight() / 2f);
+
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), horMatrix, true);
+        }
 
         BoxRenderer.bitmap = addTransparentBorder(bitmap, 4);
         bitmapLoaded = true;
