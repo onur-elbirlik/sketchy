@@ -24,15 +24,17 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-
 import java.util.ArrayList;
-
+import static android.graphics.PorterDuff.Mode.DST_OVER;
 import static org.opencv.core.CvType.CV_8UC1;
 import static org.opencv.core.CvType.CV_8UC4;
+
 
 public class CropActivity extends AppCompatActivity
 {
 
+    int hE;
+    int wI;
     Bitmap bm;
     ArrayList<Bitmap> layerArr = new  ArrayList<Bitmap>();
 
@@ -48,7 +50,9 @@ public class CropActivity extends AppCompatActivity
         final ImageView imageView = (ImageView) findViewById(R.id.image);
         imageView.setImageBitmap(bm);
         final DragRectView dragView = (DragRectView) findViewById(R.id.dragRect);
-        dragView.widthHeight(1400,1600);
+        wI = ImageToLine.w;
+        hE = ImageToLine.h;
+        dragView.widthHeight(wI,hE);
 
         if (null != dragView)
         {
@@ -57,7 +61,7 @@ public class CropActivity extends AppCompatActivity
                 @Override
                 public void onRectFinished(final Rect rect)
                 {
-                    bm = layer(rect,bm,imageView,dragView,layerArr);
+                    bm = layer(rect,bm,imageView,dragView,layerArr, wI, hE);
                 }
             });
         }
@@ -75,33 +79,33 @@ public class CropActivity extends AppCompatActivity
         return toPoint;
     }
 
-    public static Bitmap layer(Rect rect,Bitmap bm, ImageView imageView, DragRectView dragView, ArrayList<Bitmap> arr)
+    public static Bitmap layer(Rect rect,Bitmap bm, ImageView imageView, DragRectView dragView, ArrayList<Bitmap> arr, int wI, int hE)
     {
-        bm = Bitmap.createScaledBitmap(bm,1400,1600,true);
+        bm = Bitmap.createScaledBitmap(bm,wI,hE,true);
         PointF lT = new PointF();
         lT.set( rect.left, rect.top);
         //lT = convertPoint(lT,dragView,imageView);
         PointF rB = new PointF();
         rB.set(rect.right, rect.bottom);
         //rB = convertPoint(rB, dragView,imageView);
-        Bitmap bm2 = Bitmap.createBitmap(1400,1600,bm.getConfig());
+        Bitmap bm2 = Bitmap.createBitmap(wI,hE,bm.getConfig());
         Canvas cv = new Canvas();
         cv.setBitmap(bm2);
         Paint p = new Paint();
         p.setColor(Color.BLACK);
         p.setStyle(Paint.Style.FILL);
         cv.drawRect(lT.x,lT.y,rB.x,rB.y,p);
+        Bitmap tempBm = bm2.copy(bm2.getConfig(),true);
         p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         cv.drawBitmap(bm,0,0,p);
         arr.add(bm2);
-        Bitmap bm3 = bm.copy(bm.getConfig(),true);
-        bm3 = Bitmap.createScaledBitmap(bm3,1400,1600,true);
-        Canvas cv2 = new Canvas();
-        cv2.setBitmap(bm3);
+
+        //Image - Layer
+        Bitmap bm3 = bm;
+        Canvas cv2 = new Canvas(bm3);
         Paint p2 = new Paint();
-        p2.setStyle(Paint.Style.FILL);
-        p2.setColor(Color.WHITE);
-        cv2.drawRect(lT.x,lT.y,rB.x,rB.y,p2);
+        p2.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        cv2.drawRect(rect,p2);
         imageView.setImageBitmap(bm3);
         return bm3;
     }

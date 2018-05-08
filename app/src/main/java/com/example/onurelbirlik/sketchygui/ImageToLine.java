@@ -23,6 +23,8 @@ import java.io.FileOutputStream;
 public class ImageToLine extends AppCompatActivity {
     Bitmap bm = TakePictureCamera.bitmap;
     Bitmap bmCopy;
+    public static int w;
+    public static int h;
     static{
         if(!OpenCVLoader.initDebug()){
             Log.i("opencv","init fail");
@@ -157,8 +159,8 @@ public class ImageToLine extends AppCompatActivity {
         bm=createTransparentBitmapFromBitmap(bm,Color.WHITE);
         BoxRenderer.setBitmap(bm);
         TakePictureCamera.bitmap=bm;
-        System.out.println(imageView.getWidth());
-        System.out.println(imageView.getHeight());
+        w = imageView.getWidth();
+        h = imageView.getHeight();
         startActivity(intent);
     }
 
