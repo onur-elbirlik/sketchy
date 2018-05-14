@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:alwaysDrawnWithCache="false">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="350dp"
+            android:layout_height="400dp"
+            android:scaleType="fitXY" />
+
+        <com.example.onurelbirlik.sketchygui.DragRectView
+            android:id="@+id/dragRect"
+            android:layout_width="350dp"
+            android:layout_height="400dp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp">
+
+        <Button
+            android:id="@+id/resButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/dragRect"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/dragRect"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/buttonstyle"
+            android:onClick="resLayer"
+            android:text="RESIDUE"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/aRbutton"
+            app:layout_constraintHorizontal_bias="0.308"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/againButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/aRbutton"
+            android:layout_alignBottom="@+id/aRbutton"
+            android:layout_alignEnd="@+id/image"
+            android:layout_alignRight="@+id/image"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/buttonstyle"
+            android:onClick="againLayer"
+            android:text="AGAIN"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/aRbutton"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/endButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/saveButton"
+            android:layout_alignBottom="@+id/saveButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/buttonstyle"
+            android:onClick="endLayer"
+            android:text="END"
+            android:textColor="#ffffff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            tools:layout_editor_absoluteX="149dp" />
+
+    </LinearLayout> xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+</RelativeLayout>

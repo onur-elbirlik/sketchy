@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Sketchy GUI</string>
+    <string name="ata_s_activity">Ata\'s Activity</string>
+    <string name="ata">Ata</string>
+    <string-array name="colorNames">
+        <item> </item>
+        <item>Red</item>
+        <item>Black</item>
+        <item>Blue</item>
+    </string-array>
+    <string name="title_activity_crop">CropActivity</string>
+</resources>
